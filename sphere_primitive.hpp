@@ -18,25 +18,50 @@ namespace primitives {
 		public:
 			// Constructors with every combination
 			// No texture by default for now
-			sphere() { position.set(0, 0, 0); };
-			sphere(vec3<float> pos) { position = pos; };
-			sphere(float radius) { this->radius = radius; };
-			sphere(vec3<float> pos, float radius) {
+			sphere(int id) { this->id = id; }
+			sphere(int id, vec3<float> pos) { 
+				this->id = id;
+				position = pos;
+			}
+			sphere(int id, float radius) {
+				this->id = id;
+				this->radius = radius;
+			}
+			sphere(int id, vec3<float> pos, float radius) {
+				this->id = id;
 				position = pos;
 				this->radius = radius;
 			}
 
 			// Getters and setters
+			void setId(int id) { this->id = id; };
+			int getId() { return id; };
+
 			void setPosition(vec3<float> pos) { position = pos; };
 			vec3<float> getPosition() { return position; };
+			
 			void setRadius(float radius) { this->radius = radius; };
 			float getRadius() { return radius; };
+			
+			void setColor(vec4<GLfloat> color) { material_colors = color; };
+			vec4<GLfloat> getColor() { return material_colors; };
+
+			void setSpec(vec4<GLfloat> spec) { material_speculars = spec; };
+			vec4<GLfloat> getSpec() {return material_speculars; };
+
+			void setShininess(GLfloat shininess) { this->shininess = shininess; };
+			GLfloat getShininess() { return shininess; };
+
 			void setTexture(GLuint tex) { texture = tex; };
 			GLuint getTexture() { return texture; };
 
 		private:
+			int id;
 			vec3<float> position;
 			float radius;
+			vec4<GLfloat> material_colors;
+			vec4<GLfloat> material_speculars;
+			GLfloat shininess;
 			GLuint texture;
 
 	};
