@@ -9,11 +9,6 @@
 
 #pragma once
 
-#include <vector>
-#include <cmath>
-#include <GL/glut.h>
-#include "structs.hpp"
-
 void printUsage();
 
 void init();

@@ -30,6 +30,6 @@ DEPS = $(patsubst %.cpp,%.d,$(SRCS))
 
 # Cleanup
 clean:
-	rm -f  *~  $(TARGET) $(OBJS) $(DEPS)
+	rm -f  *~ *.gch  $(TARGET) $(OBJS) $(DEPS)
 
 .PHONY: clean

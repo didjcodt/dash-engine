@@ -18,7 +18,6 @@
 #include <GL/glut.h>
 
 #include "app.hpp"
-#include "structs.hpp"
 
 /*
  * Taken from Tamy Boubekeur's TP
