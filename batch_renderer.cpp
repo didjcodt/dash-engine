@@ -7,7 +7,6 @@
  * ----------------------------------------------------------------------------
  */
 
-#include "batch_renderer.hpp"
 
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
@@ -20,6 +19,8 @@
 
 #include "sphere_renderer.hpp"
 #include "sphere_primitive.hpp"
+
+#include "batch_renderer.hpp"
 
 namespace scene_renderer {
 

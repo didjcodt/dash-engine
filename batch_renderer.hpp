@@ -11,8 +11,6 @@
 
 #include <vector>
 #include <array>
-#include <GL/gl.h>
-#include <GL/glut.h>
 #include "fake_glm.hpp"
 #include "sphere_primitive.hpp"
 
