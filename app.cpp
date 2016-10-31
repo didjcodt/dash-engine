@@ -19,7 +19,7 @@
 
 #include "app.hpp"
 
-/*
+/**
  * Taken from Tamy Boubekeur's TP
  */
 void printUsage () {
@@ -33,9 +33,10 @@ void printUsage () {
 		<< " q, <esc>: Quit"                     << std::endl; 
 }
 
+/**
+ * Initialize OpenGL states
+ */
 void init () {  
-	// OpenGL states initialization
-
 	// Specifies the faces to cull
 	glCullFace (GL_BACK);
 	// Enables face culling
@@ -52,16 +53,25 @@ void init () {
 	glEnable(GL_LIGHTING);  // Turn on the lights :)
 }
 
+/**
+ * Change the viewport to fit window size
+ */
 void reshape (int w, int h) {
 	glViewport (0, 0, (GLint)w, (GLint)h);
 }
 
+/**
+ * Called when redrawing needed
+ */
 void display () {  
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Erase the color and z buffers.
 	glFlush(); // Ensures any previous OpenGL call has been executed
 	glutSwapBuffers();  // swap the render buffer and the displayed (screen) one
 }
 
+/**
+ * Keyboard management
+ */
 void keyboard (unsigned char keyPressed, int x, int y) {
 	switch (keyPressed) {
 		case 'w':
@@ -80,12 +90,21 @@ void keyboard (unsigned char keyPressed, int x, int y) {
 	glutPostRedisplay ();
 }
 
+/**
+ * Mouse management
+ */
 void mouse (int button, int state, int x, int y) {
 }
 
+/**
+ * Used to move
+ */
 void motion (int x, int y) {
 }
 
+/**
+ * Main function
+ */
 int main (int argc, char ** argv) {
 	// Initialize a glut app
 	glutInitWindowSize(1024, 768);
