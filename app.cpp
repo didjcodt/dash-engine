@@ -26,7 +26,7 @@
 #include "app.hpp"
 
 static std::vector<primitives::Sphere> sphere_primitives;
-static std::vector<primitive_renderers::Sphere_renderer> primitiverends;
+static std::vector<scene_renderer::Batch_renderer> batch;
 static std::vector<scene::Lighting> lights;
 
 /**
@@ -69,8 +69,11 @@ void init () {
 	sphere_primitives.push_back(primitives::Sphere(0,
 								0.0, 0.0, 0.0, 1.0));
 
-	// Turn on the sphere primitive renderer
-	
+	// Same for batch renderer
+	batch.push_back(scene_renderer::Batch_renderer());
+
+	// Put the sphere into batch renderer pool
+	batch[0].add_to_pool(sphere_primitives[0]);	
 
 	// Background color
 	glClearColor (0.0f, 0.0f, 0.0f, 1.0f); 
@@ -91,6 +94,10 @@ void reshape (int w, int h) {
 void display () {  
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Erase the color and z buffers.
 	glFlush(); // Ensures any previous OpenGL call has been executed
+
+	// Start the rendering of the pool
+	batch[0].render();
+
 	glutSwapBuffers();  // swap the render buffer and the displayed (screen) one
 }
 
