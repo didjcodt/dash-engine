@@ -27,6 +27,11 @@ namespace primitives {
 				this->id = id;
 				this->radius = radius;
 			}
+			Sphere(int id, float x, float y, float z, float radius) {
+				this->id = id;
+				position = vec3<float>(x, y, z);
+				this->radius = radius;
+			}
 			Sphere(int id, vec3<float> pos, float radius) {
 				this->id = id;
 				position = pos;
