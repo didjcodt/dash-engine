@@ -25,6 +25,7 @@
 
 #include "app.hpp"
 
+static std::vector<primitives::Sphere> sphere_primitives;
 static scene::Lighting lights;
 
 /**
@@ -64,7 +65,8 @@ void init () {
 
 
 	// Put some spheres
-	
+	sphere_primitives.push_back(primitives::Sphere(0,
+								0.0, 0.0, 0.0, 1.0));
 
 	// Background color
 	glClearColor (0.0f, 0.0f, 0.0f, 1.0f); 
