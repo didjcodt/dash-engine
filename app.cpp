@@ -11,13 +11,21 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <cctype>
 
 #define GL_GLEXT_PROTOTYPES
 
 #include <GL/gl.h>
 #include <GL/glut.h>
 
+#include "sphere_primitive.hpp"
+#include "sphere_renderer.hpp"
+#include "scene_light.hpp"
+#include "batch_renderer.hpp"
+
 #include "app.hpp"
+
+static scene::Lighting lights;
 
 /**
  * Taken from Tamy Boubekeur's TP
@@ -35,6 +43,7 @@ void printUsage () {
 
 /**
  * Initialize OpenGL states
+ * First part is taken from Tamy Boubekeur's TP
  */
 void init () {  
 	// Specifies the faces to cull
@@ -46,6 +55,16 @@ void init () {
 	glEnable (GL_DEPTH_TEST); 
 	// Set the width of edges in GL_LINE polygon mode
 	glLineWidth (2.0);
+
+	// Put some lights
+	lights = scene::Lighting();
+	lights.toggleLight(0);
+	lights.toggleLight(1);
+	lights.toggleLight(2);
+
+
+	// Put some spheres
+	
 
 	// Background color
 	glClearColor (0.0f, 0.0f, 0.0f, 1.0f); 
@@ -73,6 +92,9 @@ void display () {
  * Keyboard management
  */
 void keyboard (unsigned char keyPressed, int x, int y) {
+	if(isdigit(keyPressed))
+			lights.toggleLight(keyPressed - '0');
+
 	switch (keyPressed) {
 		case 'w':
 			GLint mode[2];
@@ -81,13 +103,15 @@ void keyboard (unsigned char keyPressed, int x, int y) {
 			break;
 		case 'q':
 		case 27:
-			exit (0);
+			exit(0);
+			break;
+		case '?':
+			printUsage();
 			break;
 		default:
-			printUsage ();
 			break;
 	}
-	glutPostRedisplay ();
+	glutPostRedisplay();
 }
 
 /**
