@@ -21,6 +21,7 @@
 #include "sphere_primitive.hpp"
 #include "sphere_renderer.hpp"
 #include "scene_light.hpp"
+#include "scene_camera.hpp"
 #include "batch_renderer.hpp"
 
 #include "app.hpp"
@@ -28,6 +29,7 @@
 static std::vector<primitives::Sphere> sphere_primitives;
 static std::vector<scene_renderer::Batch_renderer> batch;
 static std::vector<scene::Lighting> lights;
+static std::vector<scene::Camera> cameras;
 
 /**
  * Taken from Tamy Boubekeur's TP
@@ -69,11 +71,17 @@ void init () {
 	sphere_primitives.push_back(primitives::Sphere(0,
 								0.0, 0.0, 0.0, 1.0));
 
-	// Same for batch renderer
+	// Add a batch renderer
 	batch.push_back(scene_renderer::Batch_renderer());
 
 	// Put the sphere into batch renderer pool
 	batch[0].add_to_pool(sphere_primitives[0]);	
+
+	// Add a camera
+	cameras.push_back(scene::Camera());
+
+	// Add it to the batch renderer
+	batch[0].add_camera(cameras[0]);
 
 	// Background color
 	glClearColor (0.0f, 0.0f, 0.0f, 1.0f); 

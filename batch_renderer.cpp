@@ -19,6 +19,7 @@
 
 #include "sphere_renderer.hpp"
 #include "sphere_primitive.hpp"
+#include "scene_camera.hpp"
 
 #include "batch_renderer.hpp"
 
@@ -59,41 +60,48 @@ namespace scene_renderer {
 		pool.push_back(sphere);
 	}
 
+	void Batch_renderer::add_camera(scene::Camera cam) {
+		cameras.push_back(cam);
+	}
+
 	void Batch_renderer::render() {
 
-		for(auto sphere: pool) {
-			// Get parameters : x, y, z, radius
-			vec3<float> pos = sphere.getPosition();
-			float radius = sphere.getRadius();
+		for(auto camera: cameras) {
+			camera.initRender();
 
-			// Change MV matrix
-			// Used to translate by (x, y, z) the sphere
-			glMatrixMode(GL_MODELVIEW);
-			glPushMatrix();
-			glScalef(radius, radius, radius);
-			glTranslatef(pos.getX(), pos.getY(), pos.getZ());
+			for(auto sphere: pool) {
+				// Get parameters : x, y, z, radius
+				vec3<float> pos = sphere.getPosition();
+				float radius = sphere.getRadius();
 
-			// Set the state machine to Vertex Array enabled
-			// Use first buffer for array buffer
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[0]);
-			glVertexPointer(3, GL_FLOAT, 0, 0);
+				// Change MV matrix
+				// Used to translate by (x, y, z) the sphere
+				glMatrixMode(GL_MODELVIEW);
+				glPushMatrix();
+				glScalef(radius, radius, radius);
+				glTranslatef(pos.getX(), pos.getY(), pos.getZ());
 
-			// Use second buffer for index buffer
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexBuffer[1]);
-			glDrawElements(GL_TRIANGLES, vertexIndexArray.size(),
-					GL_UNSIGNED_INT, 0);
+				// Set the state machine to Vertex Array enabled
+				// Use first buffer for array buffer
+				glEnableClientState(GL_VERTEX_ARRAY);
+				glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[0]);
+				glVertexPointer(3, GL_FLOAT, 0, 0);
 
-			glDisableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[2]);
-			glNormalPointer (GL_FLOAT, 3*sizeof (float), 0);
-			glEnable(GL_NORMALIZE);
-			glDisableClientState(GL_NORMAL_ARRAY);
-			// Now apply the translation
-			glPopMatrix();
+				// Use second buffer for index buffer
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexBuffer[1]);
+				glDrawElements(GL_TRIANGLES, vertexIndexArray.size(),
+						GL_UNSIGNED_INT, 0);
+
+				glDisableClientState(GL_VERTEX_ARRAY);
+				//glEnableClientState(GL_NORMAL_ARRAY);
+				//glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[2]);
+				//glNormalPointer (GL_FLOAT, 3*sizeof (float), 0);
+				//glEnable(GL_NORMALIZE);
+				//glDisableClientState(GL_NORMAL_ARRAY);
+				// Now apply the translation
+				glPopMatrix();
+			}
 		}
-
 	}
 
 }

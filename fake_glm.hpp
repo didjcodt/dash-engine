@@ -43,9 +43,19 @@ class vec3 {
 		void setZ(T zValue) { z = zValue; }
 
 		// For Spherical
-		T getR()     const { return ;}
-		T getTheta() const { return ;}
-		T getPhi()   const { return ;}
+		T getR()     const {
+			return std::sqrt(x*x + y*y + z*z);
+		}
+		T getTheta() const {
+			if(z == 0)
+				return 0;
+			return std::atan(std::sqrt(x*x+y*y)/z);
+		}
+		T getPhi()   const {
+			if(x==0)
+				return 0;
+			return std::atan(y/x);
+		}
 
 		void setPolar(T rad, T theta, T phi) {
 			x = rad * sin(theta) * cos(phi);
