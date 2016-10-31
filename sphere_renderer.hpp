@@ -15,9 +15,9 @@
 
 namespace primitive_renderers {
 
-	class sphere_renderer {
+	class Sphere_renderer {
 		public:
-			sphere_renderer(int precision);
+			Sphere_renderer(int precision);
 			
 			std::vector<vec3<float> > getVertexArray() {
 				return sphere_vertex_position;

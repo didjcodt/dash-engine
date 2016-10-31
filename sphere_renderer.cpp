@@ -13,7 +13,7 @@
 
 namespace primitive_renderers {
 
-	sphere_renderer::sphere_renderer(int precision) {
+	Sphere_renderer::Sphere_renderer(int precision) {
 		nbr_points = precision;
 
 		// TODO: Generate the VAOs

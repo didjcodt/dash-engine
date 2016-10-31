@@ -14,20 +14,20 @@
 
 namespace primitives {
 
-	class sphere {
+	class Sphere {
 		public:
 			// Constructors with every combination
 			// No texture by default for now
-			sphere(int id) { this->id = id; }
-			sphere(int id, vec3<float> pos) { 
+			Sphere(int id) { this->id = id; }
+			Sphere(int id, vec3<float> pos) { 
 				this->id = id;
 				position = pos;
 			}
-			sphere(int id, float radius) {
+			Sphere(int id, float radius) {
 				this->id = id;
 				this->radius = radius;
 			}
-			sphere(int id, vec3<float> pos, float radius) {
+			Sphere(int id, vec3<float> pos, float radius) {
 				this->id = id;
 				position = pos;
 				this->radius = radius;
