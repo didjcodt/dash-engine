@@ -26,7 +26,8 @@
 #include "app.hpp"
 
 static std::vector<primitives::Sphere> sphere_primitives;
-static scene::Lighting lights;
+static std::vector<primitive_renderers::Sphere_renderer> primitiverends;
+static std::vector<scene::Lighting> lights;
 
 /**
  * Taken from Tamy Boubekeur's TP
@@ -58,15 +59,18 @@ void init () {
 	glLineWidth (2.0);
 
 	// Put some lights
-	lights = scene::Lighting();
-	lights.toggleLight(0);
-	lights.toggleLight(1);
-	lights.toggleLight(2);
+	lights.push_back(scene::Lighting());
+	lights[0].toggleLight(0);
+	lights[0].toggleLight(1);
+	lights[0].toggleLight(2);
 
 
 	// Put some spheres
 	sphere_primitives.push_back(primitives::Sphere(0,
 								0.0, 0.0, 0.0, 1.0));
+
+	// Turn on the sphere primitive renderer
+	
 
 	// Background color
 	glClearColor (0.0f, 0.0f, 0.0f, 1.0f); 
@@ -95,7 +99,7 @@ void display () {
  */
 void keyboard (unsigned char keyPressed, int x, int y) {
 	if(isdigit(keyPressed))
-			lights.toggleLight(keyPressed - '0');
+			lights[0].toggleLight(keyPressed - '0');
 
 	switch (keyPressed) {
 		case 'w':
