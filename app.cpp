@@ -164,17 +164,33 @@ void specialinput(int key, int x, int y) {
 	glutPostRedisplay();
 }
 
+static bool left_button_state;
+int last_x = -1, last_y = -1;
 
 /**
  * Mouse management
  */
 void mouse (int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON)
+	{
+		left_button_state = (state == GLUT_DOWN) ? true : false;
+	}
 }
 
 /**
  * Used to move
  */
 void motion (int x, int y) {
+	float delta_x = (last_x == -1) ? 0 : x - last_x;
+	float delta_y = (last_y == -1) ? 0 : y - last_y;
+
+	std::cout << "x: " << delta_x << " and y: " << delta_y << std::endl;
+	if(left_button_state)
+		cameras[0]->rotate(delta_x/20, delta_y/20);
+
+	last_x = x;
+	last_y = y;
+	glutPostRedisplay();
 }
 
 /**
