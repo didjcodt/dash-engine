@@ -26,10 +26,10 @@
 
 #include "app.hpp"
 
-static std::vector<primitives::Sphere> sphere_primitives;
-static std::vector<scene_renderer::Batch_renderer> batch;
-static std::vector<scene::Lighting> lights;
-static std::vector<scene::Camera> cameras;
+static std::vector<primitives::Sphere*> sphere_primitives;
+static std::vector<scene_renderer::Batch_renderer*> batch;
+static std::vector<scene::Lighting*> lights;
+static std::vector<scene::Camera*> cameras;
 
 /**
  * Taken from Tamy Boubekeur's TP
@@ -61,27 +61,27 @@ void init () {
 	glLineWidth (2.0);
 
 	// Put some lights
-	lights.push_back(scene::Lighting());
-	lights[0].toggleLight(0);
-	lights[0].toggleLight(1);
-	lights[0].toggleLight(2);
+	lights.push_back(new scene::Lighting());
+	lights[0]->toggleLight(0);
+	lights[0]->toggleLight(1);
+	lights[0]->toggleLight(2);
 
 
 	// Put some spheres
-	sphere_primitives.push_back(primitives::Sphere(0,
+	sphere_primitives.push_back(new primitives::Sphere(0,
 								0.0, 0.0, 0.0, 1.0));
 
 	// Add a batch renderer
-	batch.push_back(scene_renderer::Batch_renderer());
+	batch.push_back(new scene_renderer::Batch_renderer());
 
 	// Put the sphere into batch renderer pool
-	batch[0].add_to_pool(sphere_primitives[0]);	
+	batch[0]->add_to_pool(sphere_primitives[0]);	
 
 	// Add a camera
-	cameras.push_back(scene::Camera());
+	cameras.push_back(new scene::Camera());
 
 	// Add it to the batch renderer
-	batch[0].add_camera(cameras[0]);
+	batch[0]->add_camera(cameras[0]);
 
 	// Background color
 	glClearColor (0.0f, 0.0f, 0.0f, 1.0f); 
@@ -93,8 +93,7 @@ void init () {
  * Change the viewport to fit window size
  */
 void reshape (int w, int h) {
-	std::cout <<static_cast<float>(w)/static_cast<float>(h);
-	cameras[0].setAspectRatio(static_cast<float>(w)/static_cast<float>(h));
+	cameras[0]->setAspectRatio(static_cast<float>(w)/static_cast<float>(h));
 	glViewport (0, 0, (GLint)w, (GLint)h);
 }
 
@@ -106,7 +105,7 @@ void display () {
 	glFlush(); // Ensures any previous OpenGL call has been executed
 
 	// Start the rendering of the pool
-	batch[0].render();
+	batch[0]->render();
 
 	glutSwapBuffers();  // swap the render buffer and the displayed (screen) one
 }
@@ -116,7 +115,7 @@ void display () {
  */
 void keyboard (unsigned char keyPressed, int x, int y) {
 	if(isdigit(keyPressed))
-			lights[0].toggleLight(keyPressed - '0');
+			lights[0]->toggleLight(keyPressed - '0');
 
 	switch (keyPressed) {
 		case 'w':

@@ -23,17 +23,17 @@ namespace scene_renderer {
 
 			// Add primitive to pool
 			// Currently only spheres are allowed
-			void add_to_pool(primitives::Sphere sphere);
+			void add_to_pool(primitives::Sphere* sphere);
 
-			void add_camera(scene::Camera cam);
+			void add_camera(scene::Camera* cam);
 
 			// Start pool rendering
 			void render();
 
 		private:
 			GLuint vertexBuffer[2];
-			std::vector<primitives::Sphere> pool;
-			std::vector<scene::Camera> cameras;
+			std::vector<primitives::Sphere*> pool;
+			std::vector<scene::Camera*> cameras;
 			std::vector<std::array<float, 3> > vertexArray;
 			std::vector<unsigned int> vertexIndexArray;
 

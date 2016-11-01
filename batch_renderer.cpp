@@ -56,23 +56,23 @@ namespace scene_renderer {
 
 	}
 
-	void Batch_renderer::add_to_pool(primitives::Sphere sphere) {
+	void Batch_renderer::add_to_pool(primitives::Sphere* sphere) {
 		pool.push_back(sphere);
 	}
 
-	void Batch_renderer::add_camera(scene::Camera cam) {
+	void Batch_renderer::add_camera(scene::Camera* cam) {
 		cameras.push_back(cam);
 	}
 
 	void Batch_renderer::render() {
 
 		for(auto camera: cameras) {
-			camera.initRender();
+			camera->initRender();
 
 			for(auto sphere: pool) {
 				// Get parameters : x, y, z, radius
-				vec3<float> pos = sphere.getPosition();
-				float radius = sphere.getRadius();
+				vec3<float> pos = sphere->getPosition();
+				float radius = sphere->getRadius();
 
 				// Change MV matrix
 				// Used to translate by (x, y, z) the sphere
