@@ -93,6 +93,8 @@ void init () {
  * Change the viewport to fit window size
  */
 void reshape (int w, int h) {
+	std::cout <<static_cast<float>(w)/static_cast<float>(h);
+	cameras[0].setAspectRatio(static_cast<float>(w)/static_cast<float>(h));
 	glViewport (0, 0, (GLint)w, (GLint)h);
 }
 

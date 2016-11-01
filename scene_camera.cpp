@@ -10,13 +10,15 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include <iostream>
 #include "scene_camera.hpp"
 
 namespace scene {
 	Camera::Camera() {
 		position.set(1, 0, 0);
 		target.set(0, 0, 0);
-		updirection.set(0, 0, 1);
+		updirection.set(0, 1, 0);
+		perspective.set(45., 1.3, 0.01, 10.);
 	}
 
 	void Camera::rotate(float theta, float phi) {
@@ -41,12 +43,26 @@ namespace scene {
 		position.setPolar(curRad-rad, curTheta, curPhi);
 	}
 
+	void Camera::setAspectRatio(float aspectRatio) {
+		perspective.setY(aspectRatio);
+		std::cout << "y: " << perspective.getY() << std::endl;
+	}
+
 	void Camera::initRender() {
 		// Go to MV matrix
 		glMatrixMode(GL_MODELVIEW);
 
 		// Reset transformations
 		glLoadIdentity();
+
+		std::cout << "perspective : "
+				  << perspective.getY() << std::endl;
+
+		gluPerspective (perspective.getX(),
+						perspective.getY(),
+						perspective.getZ(),
+						perspective.getT());
+
 
 		gluLookAt(
 				position.getX()   , position.getY()   , position.getZ()   ,

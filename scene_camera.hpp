@@ -18,10 +18,12 @@ namespace scene {
 			 void rotate(float theta, float phi);
 			 void zoom(float rad);
 			 void initRender();
+			 void setAspectRatio(float aspectRatio);
 
 		 private:
 			 vec3<float> position;
 			 vec3<float> target;
 			 vec3<float> updirection;
+			 vec4<float> perspective;
 	};
 }
