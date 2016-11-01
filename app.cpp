@@ -154,6 +154,12 @@ void specialinput(int key, int x, int y) {
 		case GLUT_KEY_RIGHT:
 			cameras[0]->rotate(0, -0.1);
 			break;
+		case GLUT_KEY_PAGE_DOWN:
+			cameras[0]->zoom(-0.1);
+			break;
+		case GLUT_KEY_PAGE_UP:
+			cameras[0]->zoom(0.1);
+			break;
 	}
 	glutPostRedisplay();
 }
