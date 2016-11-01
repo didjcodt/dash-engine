@@ -137,6 +137,29 @@ void keyboard (unsigned char keyPressed, int x, int y) {
 }
 
 /**
+ * Special keys management
+ */
+void specialinput(int key, int x, int y) {
+	switch(key)
+	{
+		case GLUT_KEY_UP:
+			cameras[0]->rotate(0.1, 0);
+			break;	
+		case GLUT_KEY_DOWN:
+			cameras[0]->rotate(-0.1, 0);
+			break;
+		case GLUT_KEY_LEFT:
+			cameras[0]->rotate(0, 0.1);
+			break;
+		case GLUT_KEY_RIGHT:
+			cameras[0]->rotate(0, -0.1);
+			break;
+	}
+	glutPostRedisplay();
+}
+
+
+/**
  * Mouse management
  */
 void mouse (int button, int state, int x, int y) {
@@ -167,6 +190,7 @@ int main (int argc, char ** argv) {
 	glutKeyboardFunc(keyboard);
 	glutMouseFunc(mouse);
 	glutMotionFunc(motion);
+	glutSpecialFunc(specialinput);
 	printUsage();
 
 	// Start GLU, no code after that
