@@ -70,6 +70,11 @@ void init () {
 	// Put some spheres
 	sphere_primitives.push_back(new primitives::Sphere(0,
 								0.0, 0.0, 0.0, 1.0));
+	// Apply some texture to sphere
+	sphere_primitives[0]->setColor(vec4<GLfloat>(0.9, 0, 0, 1));
+	sphere_primitives[0]->setSpec(vec4<GLfloat>(0, 0.0, 1, 1));
+	sphere_primitives[0]->setShininess(50.0);
+	sphere_primitives[0]->enableColor(true);
 
 	// Add a batch renderer
 	batch.push_back(new scene_renderer::Batch_renderer());
@@ -95,6 +100,7 @@ void init () {
 void reshape (int w, int h) {
 	cameras[0]->setAspectRatio(static_cast<float>(w)/static_cast<float>(h));
 	glViewport (0, 0, (GLint)w, (GLint)h);
+	glutPostRedisplay();
 }
 
 /**

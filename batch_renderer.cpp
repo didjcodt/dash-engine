@@ -40,8 +40,17 @@ namespace scene_renderer {
 
 		vertexIndexArray = sphere_renderer.getVertexIndexArray();
 
+		for(auto vector: sphere_renderer.getNormals()) {
+			std::array<float, 3> temp{{
+				vector.getX(),
+				vector.getY(),
+				vector.getZ()
+			}};
+			normalsArray.push_back(temp);
+		}
+
 		// Buffer generation
-		glGenBuffers(2, &vertexBuffer[0]);
+		glGenBuffers(3, &vertexBuffer[0]);
 
 		// Fill the buffers
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[0]);
@@ -53,6 +62,11 @@ namespace scene_renderer {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER,
 				vertexIndexArray.size()*sizeof(unsigned int),
 				(GLvoid*)vertexIndexArray.data(), GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[2]);
+		glBufferData(GL_ARRAY_BUFFER,
+				normalsArray.size()*sizeof(std::array<float, 3>),
+				(GLvoid*)normalsArray.data(), GL_STATIC_DRAW);
+				
 
 	}
 
@@ -93,11 +107,30 @@ namespace scene_renderer {
 						GL_UNSIGNED_INT, 0);
 
 				glDisableClientState(GL_VERTEX_ARRAY);
-				//glEnableClientState(GL_NORMAL_ARRAY);
-				//glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[2]);
-				//glNormalPointer (GL_FLOAT, 3*sizeof (float), 0);
-				//glEnable(GL_NORMALIZE);
+
+				// Use third for normals
+				glEnableClientState(GL_NORMAL_ARRAY);
+				glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[2]);
+				glNormalPointer (GL_FLOAT, 0, 0);
+				glEnable(GL_NORMALIZE);
 				//glDisableClientState(GL_NORMAL_ARRAY);
+				
+				// Now is to apply the materials
+				if(sphere->hasColor()) {
+					vec4<float> specu = sphere->getSpec();
+					GLfloat material_specular[4] = {
+						specu.getX(), specu.getY(), specu.getZ(), specu.getT()
+					};
+					vec4<float> col = sphere->getSpec();
+					GLfloat material_color[4] = {
+						col.getX(), col.getY(), col.getZ(), col.getT()
+					};
+
+					glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material_specular);
+					glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_color);
+					glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, sphere->getShininess());
+				}
+
 				// Now apply the translation
 				glPopMatrix();
 			}

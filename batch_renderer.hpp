@@ -31,11 +31,12 @@ namespace scene_renderer {
 			void render();
 
 		private:
-			GLuint vertexBuffer[2];
+			GLuint vertexBuffer[3];
 			std::vector<primitives::Sphere*> pool;
 			std::vector<scene::Camera*> cameras;
 			std::vector<std::array<float, 3> > vertexArray;
 			std::vector<unsigned int> vertexIndexArray;
+			std::vector<std::array<float, 3> > normalsArray;
 
 	};
 

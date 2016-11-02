@@ -27,11 +27,14 @@ namespace primitive_renderers {
 				return sphere_vertex_index;
 			}
 
+			std::vector<vec3<float> > getNormals() {
+				return sphere_vertex_position;
+			}
+
 		private:
 			int nbr_points;
 			std::vector<vec3<float> > sphere_vertex_position;
 			std::vector<unsigned int> sphere_vertex_index;
-
 	};
 
 }

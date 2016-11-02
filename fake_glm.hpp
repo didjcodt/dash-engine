@@ -63,11 +63,26 @@ class vec3 {
 			z = rad * cos(theta);
 		}
 
+		void normalize() {
+			T mag = std::sqrt(x*x + y*y + z*z);
+			if(mag != 0) {
+				x /= mag;
+				y /= mag;
+				z /= mag;
+			}
+		}
+
 		// Operators
 		vec3 operator==(const vec3 &vector) {
 			return (vector.getX()==x) &&
 				   (vector.getY()==y) &&
 				   (vector.getZ()==z);
+		}
+
+		vec3 operator+(const vec3<T> &vector) {
+			return vec3<T>(x + vector.getX(),
+						   y + vector.getY(),
+						   z + vector.getZ());
 		}
 };
 

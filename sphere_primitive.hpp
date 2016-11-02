@@ -60,10 +60,14 @@ namespace primitives {
 			void setTexture(GLuint tex) { texture = tex; };
 			GLuint getTexture() { return texture; };
 
+			void enableColor(bool ena) { enaColor = ena; };
+			bool hasColor() { return enaColor; };
+
 		private:
 			int id;
 			vec3<float> position;
 			float radius;
+			bool enaColor = false;
 			vec4<GLfloat> material_colors;
 			vec4<GLfloat> material_speculars;
 			GLfloat shininess;

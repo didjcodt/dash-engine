@@ -16,7 +16,6 @@ namespace primitive_renderers {
 	Sphere_renderer::Sphere_renderer(int precision) {
 		nbr_points = precision;
 
-		// TODO: Generate the VAOs
 		// We'll use spherical coordinates so we need a radius, theta and phi
 		const float theta = M_PI/40;
 		const float phi   = M_PI/20;
@@ -90,5 +89,4 @@ namespace primitive_renderers {
 			sphere_vertex_index.push_back((i * nbrPtsLine));
 		}
 	}
-
 }
