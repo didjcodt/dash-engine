@@ -1,4 +1,6 @@
 /*
+ * app.cpp file
+ * Main file containing the whole demo of the dash engine
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
  * <clement@decoodt.eu> wrote this file. As long as you retain this notice you

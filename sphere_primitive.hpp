@@ -1,4 +1,6 @@
 /*
+ * sphere_primitive.hpp
+ * Header containing the definition of the main primitive
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
  * <clement@decoodt.eu> wrote this file. As long as you retain this notice you

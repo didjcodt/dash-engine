@@ -1,4 +1,6 @@
 /*
+ * sphere_renderer.cpp
+ * File describing the main primitive renderer, generating the VBOs, etc.
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
  * <clement@decoodt.eu> wrote this file. As long as you retain this notice you

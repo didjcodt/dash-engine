@@ -1,4 +1,6 @@
 /*
+ * texture.cpp
+ * Main texture file
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
  * <clement@decoodt.eu> wrote this file. As long as you retain this notice you
