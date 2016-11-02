@@ -80,7 +80,7 @@ void init () {
 	batch.push_back(new scene_renderer::Batch_renderer());
 
 	// Add a texture
-	batch[0]->add_texture("textures/bois_256x256.ppm");
+	batch[0]->add_texture("textures/brick_256x256.ppm");
 	batch[0]->load_textures();
 
 	// Apply the texture to the sphere

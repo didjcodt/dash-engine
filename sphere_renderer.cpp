@@ -51,8 +51,8 @@ namespace primitive_renderers {
 		// Indices for bottom
 		for(int i = 0; i < nbrPtsLine; i++) {
 			sphere_vertex_index.push_back(lastPosition-nbrPtsLine+i-1);
-			sphere_vertex_index.push_back(lastPosition-nbrPtsLine+i);
 			sphere_vertex_index.push_back(lastPosition-1);
+			sphere_vertex_index.push_back(lastPosition-nbrPtsLine+i);
 		}
 		sphere_vertex_index[sphere_vertex_index.size()-2] =
 			lastPosition-nbrPtsLine-1;
