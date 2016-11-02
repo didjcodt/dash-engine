@@ -17,6 +17,7 @@ namespace scene {
 			 Camera();
 			 void rotate(float theta, float phi);
 			 void zoom(float rad);
+			 void move_target(float theta, float phi);
 			 void initRender();
 			 void setAspectRatio(float aspectRatio);
 

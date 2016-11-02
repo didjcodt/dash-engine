@@ -128,12 +128,55 @@ void display () {
 	glutSwapBuffers();  // swap the render buffer and the displayed (screen) one
 }
 
+// Just for testing
+static int isRight = 0;
+static int MLAStep = 0;
+static bool firstTime = true;
+
+void startMyLittleAnimation() {
+	// First time is for recentering purposes
+	if(firstTime) {
+		if(MLAStep < 100 + 200) {
+			sup_velocity -= 0.01;
+			MLAStep++;
+		} else {
+			MLAStep = 0;
+			firstTime = false;
+		}
+	} else {
+		if(MLAStep < 400) {
+			sup_velocity += 0.01;
+			MLAStep++;
+		} else {
+			sup_velocity -= 0.01;
+			MLAStep++;
+			if(MLAStep >= 800)
+				MLAStep = 0;
+		}
+	}
+	std::cout << MLAStep << std::endl;
+}
+
 /**
  * Keyboard management
  */
 void keyboard (unsigned char keyPressed, int x, int y) {
 	if(isdigit(keyPressed))
 			lights[0]->toggleLight(keyPressed - '0');
+
+	// Just for testing
+	if(isRight == 8)
+		if(keyPressed == 'b') {
+			isRight++;
+			std::cout << "?";
+		} else isRight = 0;
+	else if(isRight == 9)
+		if(keyPressed == 'a') {
+			std::cout << "tada";
+			isRight = 50;
+		} else isRight = 0;
+	else isRight = 0;
+
 
 	switch (keyPressed) {
 		case 'w':
@@ -143,9 +186,11 @@ void keyboard (unsigned char keyPressed, int x, int y) {
 			break;
 		case '+':
 			sup_velocity += 0.1;
+			std::cout << "Changed velocity to " << sup_velocity;
 			break;
 		case '-':
 			sup_velocity -= 0.1;
+			std::cout << "Changed velocity to " << sup_velocity;
 			break;
 		case 'q':
 		case 27:
@@ -168,27 +213,47 @@ void specialinput(int key, int x, int y) {
 	{
 		case GLUT_KEY_UP:
 			cameras[0]->rotate(0.1, 0);
+			if(isRight == 0 || isRight == 1) {
+				isRight++;
+				std::cout << "?";
+			} else isRight = 0;
 			break;	
 		case GLUT_KEY_DOWN:
 			cameras[0]->rotate(-0.1, 0);
+			if(isRight == 2 || isRight == 3) {
+				isRight++;
+				std::cout << "?";
+			} else isRight = 0;
 			break;
 		case GLUT_KEY_LEFT:
 			cameras[0]->rotate(0, 0.1);
+			if(isRight == 4 || isRight == 6) {
+				isRight++;
+				std::cout << "?";
+			} else isRight = 0;
 			break;
 		case GLUT_KEY_RIGHT:
 			cameras[0]->rotate(0, -0.1);
+			if(isRight == 5 || isRight == 7) {
+				isRight++;
+				std::cout << "?";
+			} else isRight = 0;
 			break;
 		case GLUT_KEY_PAGE_DOWN:
 			cameras[0]->zoom(-0.1);
+			isRight = 0;
 			break;
 		case GLUT_KEY_PAGE_UP:
 			cameras[0]->zoom(0.1);
+			isRight = 0;
 			break;
 	}
 	glutPostRedisplay();
 }
 
 static bool left_button_state;
+static bool right_button_state;
+static bool middle_button_state;
 int last_x = -1, last_y = -1;
 
 /**
@@ -196,9 +261,13 @@ int last_x = -1, last_y = -1;
  */
 void mouse (int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON)
-	{
 		left_button_state = (state == GLUT_DOWN) ? true : false;
-	}
+	
+	else if (button == GLUT_RIGHT_BUTTON)
+		right_button_state = (state == GLUT_DOWN) ? true : false;
+
+	else if (button == GLUT_MIDDLE_BUTTON)
+		middle_button_state = (state == GLUT_DOWN) ? true : false;
 }
 
 /**
@@ -208,8 +277,17 @@ void motion (int x, int y) {
 	float delta_x = (last_x == -1) ? 0 : x - last_x;
 	float delta_y = (last_y == -1) ? 0 : y - last_y;
 
+	delta_x = (delta_x > 10) ? 0 : delta_x;
+	delta_y = (delta_y > 10) ? 0 : delta_y;
+
 	if(left_button_state)
-		cameras[0]->rotate(delta_x/20, delta_y/20);
+		cameras[0]->rotate(delta_y/20, -delta_x/20);
+
+	else if(right_button_state)
+		cameras[0]->move_target(delta_y/20, -delta_x/20);
+
+	else if(middle_button_state)
+		cameras[0]->zoom(-delta_y/20 + delta_x/20);
 
 	last_x = x;
 	last_y = y;
@@ -240,6 +318,10 @@ void idle() {
 		sph->setPosition(nextPos);
 		i++;
 	}
+
+	// Just for testing
+	if(isRight == 50)
+		startMyLittleAnimation();
 	glutPostRedisplay();
 }
 

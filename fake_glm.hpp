@@ -85,6 +85,12 @@ class vec3 {
 						   y + vector.getY(),
 						   z + vector.getZ());
 		}
+
+		vec3 operator-(const vec3<T> &vector) {
+			return vec3<T>(x - vector.getX(),
+						   y - vector.getY(),
+						   z - vector.getZ());
+		}
 };
 
 template <class T>

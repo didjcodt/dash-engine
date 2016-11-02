@@ -21,17 +21,21 @@ namespace scene {
 	}
 
 	void Camera::rotate(float theta, float phi) {
-		float curRad   = position.getR();
-		float curTheta = position.getTheta();
-		float curPhi   = position.getPhi();
+		vec3<float>  dir = target - position;
+		float curRad   = dir.getR();
+		float curTheta = dir.getTheta();
+		float curPhi   = dir.getPhi();
+		dir.setPolar(curRad, curTheta+theta, curPhi+phi);
+		position = target - dir;
+	}
 
-		position.setPolar(curRad, curTheta+theta, curPhi+phi);
-
-		curRad   = updirection.getR();
-		curTheta = updirection.getTheta();
-		curPhi   = updirection.getPhi();
-
-		updirection.setPolar(curRad, curTheta+theta, curPhi+phi);
+	void Camera::move_target(float theta, float phi) {
+		vec3<float>  dir = target - position;
+		float curRad   = dir.getR();
+		float curTheta = dir.getTheta();
+		float curPhi   = dir.getPhi();
+		dir.setPolar(curRad, curTheta+theta, curPhi+phi);
+		target = dir + position;
 	}
 
 	void Camera::zoom(float rad) {
