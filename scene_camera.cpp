@@ -14,9 +14,9 @@
 
 namespace scene {
 	Camera::Camera() {
-		position.set(-20, 0, 0);
-		target.set(0, 0, 0);
-		updirection.set(0, 1, 0);
+		position.set(-20, 10, 10);
+		target.set(0, 0, 5);
+		updirection.set(0, 0, 1);
 		perspective.set(45., 1.3, 0.01, 100.);
 	}
 

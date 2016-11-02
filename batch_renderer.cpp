@@ -23,7 +23,6 @@
 #include "sphere_primitive.hpp"
 #include "scene_camera.hpp"
 #include "texture.hpp"
-#include <iostream>
 
 #include "batch_renderer.hpp"
 
@@ -45,7 +44,6 @@ namespace scene_renderer {
 				static_cast<float>(vector.getTheta()/M_PI),
 				static_cast<float>((vector.getPhi() + M_PI) )
 			}};
-			std::cout << "t: " << tempPolar[0] << ", p: " << tempPolar[1] << std::endl;
 			UVMap.push_back(tempPolar);
 		}
 

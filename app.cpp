@@ -208,7 +208,6 @@ void motion (int x, int y) {
 	float delta_x = (last_x == -1) ? 0 : x - last_x;
 	float delta_y = (last_y == -1) ? 0 : y - last_y;
 
-	std::cout << "x: " << delta_x << " and y: " << delta_y << std::endl;
 	if(left_button_state)
 		cameras[0]->rotate(delta_x/20, delta_y/20);
 
@@ -219,13 +218,12 @@ void motion (int x, int y) {
 
 /**
  * Idle function used for animation...
- * TODO: Make a physics entity to control the primitives
+ * TODO: Make a physics engine to control the primitives
  */
 void idle() {
 	float old_time = current_time;
 	current_time = glutGet((GLenum)GLUT_ELAPSED_TIME);
 	traj +=  (sup_velocity + 1) * (current_time - old_time)/500;
-	//float traj = (sup_velocity+1)*2*current_time/1000;
 	int i = 0;
 	for(auto sph: sphere_primitives) {
 		vec3<float> nextPos(
