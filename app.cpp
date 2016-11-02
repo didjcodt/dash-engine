@@ -72,7 +72,7 @@ void init () {
 								0.0, 0.0, 0.0, 1.0));
 	// Apply some texture to sphere
 	sphere_primitives[0]->setColor(vec4<GLfloat>(0.9, 0, 0, 1));
-	sphere_primitives[0]->setSpec(vec4<GLfloat>(0, 0.0, 1, 1));
+	sphere_primitives[0]->setSpec(vec4<GLfloat>(1, 1.0, 1, 1));
 	sphere_primitives[0]->setShininess(50.0);
 	sphere_primitives[0]->enableColor(true);
 

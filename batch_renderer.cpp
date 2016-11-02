@@ -42,9 +42,10 @@ namespace scene_renderer {
 			vertexArray.push_back(temp);
 
 			std::array<float, 2> tempPolar{{
-				vector.getTheta(),
-				vector.getPhi()
+				static_cast<float>(vector.getTheta()/M_PI),
+				static_cast<float>((vector.getPhi() + M_PI) )
 			}};
+			std::cout << "t: " << tempPolar[0] << ", p: " << tempPolar[1] << std::endl;
 			UVMap.push_back(tempPolar);
 		}
 
@@ -82,8 +83,8 @@ namespace scene_renderer {
 				(GLvoid*)normalsArray.data(), GL_STATIC_DRAW);
 
 		// UV Map
-		glBindBuffer(GL_TEXTURE_2D, vertexBuffer[3]);
-		glBufferData(GL_TEXTURE_2D,
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[3]);
+		glBufferData(GL_ARRAY_BUFFER,
 				UVMap.size()*sizeof(std::array<float, 2>),
 				(GLvoid*)UVMap.data(), GL_STATIC_DRAW);
 
@@ -140,7 +141,7 @@ namespace scene_renderer {
 				// Set UV Map
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 				glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[3]);
-				glTexCoordPointer (2, GL_FLOAT, 2*sizeof (float), 0);
+				glTexCoordPointer(2, GL_FLOAT, 2*sizeof(float), 0);
 
 				// Apply the texture
 				if(sphere->hasTexture())
