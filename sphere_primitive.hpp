@@ -57,8 +57,11 @@ namespace primitives {
 			void setShininess(GLfloat shininess) { this->shininess = shininess; };
 			GLfloat getShininess() { return shininess; };
 
-			void setTexture(GLuint tex) { texture = tex; };
-			GLuint getTexture() { return texture; };
+			void setTexture(int tex) { texture = tex; };
+			int getTexture() { return texture; };
+
+			void enableTexture(bool ena) { enaTexture = ena; };
+			bool hasTexture() {return enaTexture; };
 
 			void enableColor(bool ena) { enaColor = ena; };
 			bool hasColor() { return enaColor; };
@@ -68,10 +71,11 @@ namespace primitives {
 			vec3<float> position;
 			float radius;
 			bool enaColor = false;
+			bool enaTexture = false;
 			vec4<GLfloat> material_colors;
 			vec4<GLfloat> material_speculars;
 			GLfloat shininess;
-			GLuint texture;
+			int texture;
 
 	};
 

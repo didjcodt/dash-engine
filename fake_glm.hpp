@@ -47,14 +47,15 @@ class vec3 {
 			return std::sqrt(x*x + y*y + z*z);
 		}
 		T getTheta() const {
-			if(z == 0)
+			T radius = getR();
+			if(radius == 0)
 				return 0;
-			return std::atan(std::sqrt(x*x+y*y)/z);
+			return std::acos(z/radius);
 		}
 		T getPhi()   const {
 			if(x==0)
 				return 0;
-			return std::atan(y/x);
+			return std::atan2(y, x);
 		}
 
 		void setPolar(T rad, T theta, T phi) {

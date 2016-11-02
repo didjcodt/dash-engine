@@ -11,15 +11,19 @@
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/glut.h>
 #include <GL/glx.h>
 #include <GL/glext.h>
 
 #include <vector>
 #include <array>
+#include <cmath>
 
 #include "sphere_renderer.hpp"
 #include "sphere_primitive.hpp"
 #include "scene_camera.hpp"
+#include "texture.hpp"
+#include <iostream>
 
 #include "batch_renderer.hpp"
 
@@ -36,6 +40,12 @@ namespace scene_renderer {
 				vector.getZ()
 			}};
 			vertexArray.push_back(temp);
+
+			std::array<float, 2> tempPolar{{
+				vector.getTheta(),
+				vector.getPhi()
+			}};
+			UVMap.push_back(tempPolar);
 		}
 
 		vertexIndexArray = sphere_renderer.getVertexIndexArray();
@@ -50,23 +60,32 @@ namespace scene_renderer {
 		}
 
 		// Buffer generation
-		glGenBuffers(3, &vertexBuffer[0]);
+		glGenBuffers(4, &vertexBuffer[0]);
 
 		// Fill the buffers
+		// Vertex Array
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[0]);
 		glBufferData(GL_ARRAY_BUFFER, 
 				vertexArray.size()*sizeof(std::array<float, 3>),
 				(GLvoid*)vertexArray.data(), GL_STATIC_DRAW);
 
+		// Vertex Index Array
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexBuffer[1]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER,
 				vertexIndexArray.size()*sizeof(unsigned int),
 				(GLvoid*)vertexIndexArray.data(), GL_STATIC_DRAW);
+
+		// Normal Array
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[2]);
 		glBufferData(GL_ARRAY_BUFFER,
 				normalsArray.size()*sizeof(std::array<float, 3>),
 				(GLvoid*)normalsArray.data(), GL_STATIC_DRAW);
-				
+
+		// UV Map
+		glBindBuffer(GL_TEXTURE_2D, vertexBuffer[3]);
+		glBufferData(GL_TEXTURE_2D,
+				UVMap.size()*sizeof(std::array<float, 2>),
+				(GLvoid*)UVMap.data(), GL_STATIC_DRAW);
 
 	}
 
@@ -76,6 +95,29 @@ namespace scene_renderer {
 
 	void Batch_renderer::add_camera(scene::Camera* cam) {
 		cameras.push_back(cam);
+	}
+
+	void Batch_renderer::add_texture(std::string filename) {
+		texture::Texture* text = new texture::Texture(filename);
+		textures.push_back(text);
+	}
+
+	void Batch_renderer::load_textures() {
+		// Texture generation
+		glEnable(GL_TEXTURE_2D);
+		for(auto texture: textures) {
+			GLuint id;
+			glGenTextures(1, &id);
+			texture->setId(id);
+			glBindTexture(GL_TEXTURE_2D, id);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->getWidth(),
+					texture->getHeight(), 0, GL_RGB,
+					GL_UNSIGNED_BYTE, texture->getImage());
+		}
 	}
 
 	void Batch_renderer::render() {
@@ -95,6 +137,16 @@ namespace scene_renderer {
 				glScalef(radius, radius, radius);
 				glTranslatef(pos.getX(), pos.getY(), pos.getZ());
 
+				// Set UV Map
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[3]);
+				glTexCoordPointer (2, GL_FLOAT, 2*sizeof (float), 0);
+
+				// Apply the texture
+				if(sphere->hasTexture())
+					glBindTexture(GL_TEXTURE_2D,
+							textures[sphere->getTexture()]->getId());
+
 				// Set the state machine to Vertex Array enabled
 				// Use first buffer for array buffer
 				glEnableClientState(GL_VERTEX_ARRAY);
@@ -113,8 +165,7 @@ namespace scene_renderer {
 				glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer[2]);
 				glNormalPointer (GL_FLOAT, 0, 0);
 				glEnable(GL_NORMALIZE);
-				//glDisableClientState(GL_NORMAL_ARRAY);
-				
+
 				// Now is to apply the materials
 				if(sphere->hasColor()) {
 					vec4<float> specu = sphere->getSpec();

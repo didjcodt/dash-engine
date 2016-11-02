@@ -11,9 +11,11 @@
 
 #include <vector>
 #include <array>
+#include <string>
 #include "fake_glm.hpp"
 #include "sphere_primitive.hpp"
 #include "scene_camera.hpp"
+#include "texture.hpp"
 
 namespace scene_renderer {
 
@@ -27,16 +29,22 @@ namespace scene_renderer {
 
 			void add_camera(scene::Camera* cam);
 
+			void add_texture(std::string filename);
+
+			void load_textures();
+
 			// Start pool rendering
 			void render();
 
 		private:
-			GLuint vertexBuffer[3];
+			GLuint vertexBuffer[4];
+			std::vector<texture::Texture*> textures;
 			std::vector<primitives::Sphere*> pool;
 			std::vector<scene::Camera*> cameras;
 			std::vector<std::array<float, 3> > vertexArray;
 			std::vector<unsigned int> vertexIndexArray;
 			std::vector<std::array<float, 3> > normalsArray;
+			std::vector<std::array<float, 2> > UVMap;
 
 	};
 
