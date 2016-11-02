@@ -31,6 +31,9 @@ static std::vector<scene_renderer::Batch_renderer*> batch;
 static std::vector<scene::Lighting*> lights;
 static std::vector<scene::Camera*> cameras;
 
+static float current_time = 0;
+static float sup_velocity = 0;
+
 /**
  * Taken from Tamy Boubekeur's TP
  */
@@ -137,6 +140,12 @@ void keyboard (unsigned char keyPressed, int x, int y) {
 			glGetIntegerv(GL_POLYGON_MODE, mode);
 			glPolygonMode(GL_FRONT_AND_BACK, mode[1] ==  GL_FILL ? GL_LINE : GL_FILL);
 			break;
+		case '+':
+			sup_velocity += 0.1;
+			break;
+		case '-':
+			sup_velocity -= 0.1;
+			break;
 		case 'q':
 		case 27:
 			exit(0);
@@ -207,15 +216,13 @@ void motion (int x, int y) {
 	glutPostRedisplay();
 }
 
-static float current_time = 0;
-
 /**
  * Idle function used for animation...
  * TODO: Make a physics entity to control the primitives
  */
 void idle() {
 	current_time = glutGet((GLenum)GLUT_ELAPSED_TIME);
-	float traj = 2*current_time/1000;
+	float traj = (sup_velocity+1)*2*current_time/1000;
 	int i = 0;
 	for(auto sph: sphere_primitives) {
 		vec3<float> nextPos(
