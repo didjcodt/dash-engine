@@ -14,10 +14,10 @@
 
 namespace scene {
 	Camera::Camera() {
-		position.set(-2.1, 0, 3);
+		position.set(-20, 0, 0);
 		target.set(0, 0, 0);
-		updirection.set(1, 0, 0);
-		perspective.set(45., 1.3, 0.01, 10.);
+		updirection.set(0, 1, 0);
+		perspective.set(45., 1.3, 0.01, 100.);
 	}
 
 	void Camera::rotate(float theta, float phi) {

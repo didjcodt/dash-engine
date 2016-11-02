@@ -66,16 +66,6 @@ void init () {
 	lights[0]->toggleLight(1);
 	lights[0]->toggleLight(2);
 
-
-	// Put some spheres
-	sphere_primitives.push_back(new primitives::Sphere(0,
-								0.0, 0.0, 0.0, 1.0));
-	// Apply some texture to sphere
-	sphere_primitives[0]->setColor(vec4<GLfloat>(0.9, 0, 0, 1));
-	sphere_primitives[0]->setSpec(vec4<GLfloat>(1, 1.0, 1, 1));
-	sphere_primitives[0]->setShininess(50.0);
-	sphere_primitives[0]->enableColor(true);
-
 	// Add a batch renderer
 	batch.push_back(new scene_renderer::Batch_renderer());
 
@@ -83,12 +73,22 @@ void init () {
 	batch[0]->add_texture("textures/brick_256x256.ppm");
 	batch[0]->load_textures();
 
-	// Apply the texture to the sphere
-	sphere_primitives[0]->setTexture(0);
-	sphere_primitives[0]->enableTexture(true);
+	// Put some spheres
+	for(int i = 0; i < 10; i++)
+		sphere_primitives.push_back(new primitives::Sphere(0,
+									0.0, 0.0, 0.0, 1.0));
 
-	// Put the sphere into batch renderer pool
-	batch[0]->add_to_pool(sphere_primitives[0]);	
+	// Apply some texture to sphere
+	for(auto sph: sphere_primitives) {
+		sph->setColor(vec4<GLfloat>(0.9, 0, 0, 1));
+		sph->setSpec(vec4<GLfloat>(1, 1.0, 1, 1));
+		sph->setShininess(50.0);
+		sph->enableColor(true);
+		sph->setTexture(0);
+		sph->enableTexture(true);
+		// Put the sphere into batch renderer pool
+		batch[0]->add_to_pool(sph);
+	}
 
 	// Add a camera
 	cameras.push_back(new scene::Camera());
@@ -207,6 +207,34 @@ void motion (int x, int y) {
 	glutPostRedisplay();
 }
 
+static float current_time = 0;
+
+/**
+ * Idle function used for animation...
+ * TODO: Make a physics entity to control the primitives
+ */
+void idle() {
+	current_time = glutGet((GLenum)GLUT_ELAPSED_TIME);
+	float traj = 2*current_time/1000;
+	int i = 0;
+	for(auto sph: sphere_primitives) {
+		vec3<float> nextPos(
+			sphere_primitives.size() * 0.6 *
+			std::sin(traj + 2 * M_PI * i / sphere_primitives.size()),
+
+			sphere_primitives.size() * 0.6 *
+			std::cos(traj + 2 * M_PI * i / sphere_primitives.size()),
+
+			sphere_primitives.size() * 0.9 *
+			std::sin(traj + 2 * M_PI * i / sphere_primitives.size()) *
+			std::sin(traj + 2 * M_PI * i / sphere_primitives.size())
+			);
+		sph->setPosition(nextPos);
+		i++;
+	}
+	glutPostRedisplay();
+}
+
 /**
  * Main function
  */
@@ -227,6 +255,7 @@ int main (int argc, char ** argv) {
 	glutMouseFunc(mouse);
 	glutMotionFunc(motion);
 	glutSpecialFunc(specialinput);
+	glutIdleFunc(idle);
 	printUsage();
 
 	// Start GLU, no code after that
