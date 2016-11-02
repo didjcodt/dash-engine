@@ -154,7 +154,6 @@ void startMyLittleAnimation() {
 				MLAStep = 0;
 		}
 	}
-	std::cout << MLAStep << std::endl;
 }
 
 /**
@@ -168,11 +167,9 @@ void keyboard (unsigned char keyPressed, int x, int y) {
 	if(isRight == 8)
 		if(keyPressed == 'b') {
 			isRight++;
-			std::cout << "?";
 		} else isRight = 0;
 	else if(isRight == 9)
 		if(keyPressed == 'a') {
-			std::cout << "tada";
 			isRight = 50;
 		} else isRight = 0;
 	else isRight = 0;
@@ -215,28 +212,24 @@ void specialinput(int key, int x, int y) {
 			cameras[0]->rotate(0.1, 0);
 			if(isRight == 0 || isRight == 1) {
 				isRight++;
-				std::cout << "?";
 			} else isRight = 0;
 			break;	
 		case GLUT_KEY_DOWN:
 			cameras[0]->rotate(-0.1, 0);
 			if(isRight == 2 || isRight == 3) {
 				isRight++;
-				std::cout << "?";
 			} else isRight = 0;
 			break;
 		case GLUT_KEY_LEFT:
 			cameras[0]->rotate(0, 0.1);
 			if(isRight == 4 || isRight == 6) {
 				isRight++;
-				std::cout << "?";
 			} else isRight = 0;
 			break;
 		case GLUT_KEY_RIGHT:
 			cameras[0]->rotate(0, -0.1);
 			if(isRight == 5 || isRight == 7) {
 				isRight++;
-				std::cout << "?";
 			} else isRight = 0;
 			break;
 		case GLUT_KEY_PAGE_DOWN:
